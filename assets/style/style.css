@@ -1,0 +1,90 @@
+body{
+	color:#ffd700;
+	font-size: 22px;
+	line-height: 1.5;
+	background-image: url("../images/stardust.png");
+}
+
+h1{
+	font-size: 80px;
+}
+
+label{
+	font-size: 30px;
+	font-weight: normal;
+}
+
+#bodyContainer{
+
+}
+
+.clearFix:after{
+  	content: "";
+  	display: table;
+  	clear: both;
+}
+
+.form-control{
+	background:none;
+	color:#ffd700;
+
+}
+
+.form-control:focus{
+	border: 1px solid #ffd700;
+	box-shadow: 0px 0px 5px 0px #ffd700;
+}
+
+.myButton{
+	border:2px solid #ffd700;
+	text-align: center;
+	margin: 5px;
+	padding:10px;
+	float:left;
+	border-radius: 4px;
+}
+
+.myButton:hover,
+.myButton:active{
+	color:#444349;
+	background-color:#ffd700;
+	cursor:pointer;
+}
+
+.myFormRow{
+	margin-top: 20px;
+}
+
+#myHeader{
+	background-image: url("../images/ep_naturalblack.png");
+	position:relative;
+	z-index:999;
+}
+
+.mySmall{
+	color:#777;
+}
+
+#mySubmitButton{
+	border-radius: 4px;
+	border:none;
+	width:150px;
+	height:50px;
+	color:#ffd700;
+	background: none;
+	cursor: pointer;
+	border: 2px solid #ffd700;
+}
+
+#mySubmitButton:hover,
+#mySubmitButton:active{
+	background: #ffd700;
+	color: #444349;
+}
+
+.page-header{
+	border-bottom:none;
+}
+.row{
+	margin-top: 10px;
+}
