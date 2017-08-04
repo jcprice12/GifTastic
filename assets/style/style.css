@@ -36,8 +36,8 @@ label{
 	box-shadow: 0px 0px 5px 0px #ffd700;
 }
 
-.giphsContainer{
-	background-color: red;
+#giphsContainer{
+	margin-top: 20px;
 }
 
 .myButton{
@@ -58,6 +58,13 @@ label{
 
 .myFormRow{
 	margin-top: 20px;
+}
+
+.myGif{
+	max-width: 300px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	border-radius: 4px;
 }
 
 #myHeader{
