@@ -217,7 +217,7 @@ function buildGif(gifData){
 	loadAnimation.startAll();
 	//on load, remove the load animation and event listener
 	//I'm concerned about a memory leak here or something. If the load animation objects aren't properly deleted
-	//by the garbage container, this application could end up using a lot of memory without letting it go.
+	//by the garbage collector, this application could end up using a lot of memory without letting it go.
 	gif.addEventListener("load", function (){
 		gif.removeEventListener("load", function(){
 			//nothing
