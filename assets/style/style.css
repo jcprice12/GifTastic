@@ -102,39 +102,6 @@ label{
 }
 
 
-/**********************************************************************************
-Load Animation Styling
-***********************************************************************************/
-.loadContainer {
-	position: absolute;
-	margin: auto;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	height: 75px;
-	width: 75px;
-	-webkit-transform: rotate(270deg);
-    -moz-transform: rotate(270deg);
-    -o-transform: rotate(270deg);
-    -ms-transform: rotate(270deg);
-    transform: rotate(270deg);
-}
-
-.circle {
-	position: absolute;
-	width: 12px;
-	height: 12px;
-	border-radius: 50%;
-	background-color: #ffd700;
-	display: none;
-	opacity:.75;
-}
-
-/**********************************************************************************
-END Load Animation Styling
-***********************************************************************************/
-
 /***********************************************************************************
 GIF Styling
 ***********************************************************************************/

@@ -1,13 +1,18 @@
 /***********************************************************************************************************************************************************
 	Load Animation Prototype
 **********************************************************************************************************************************************************/
-function MyLoadAnimation1(myElementsToAnimate, mySize, myCircleSize){
+function MyLoadAnimation1(myParentContainer, mySize, myCircleSize, myNumberOfCircles, myColors){
 	this.counter = 0;
-	this.elementsToAnimate = myElementsToAnimate;
+	this.elementsToAnimate = [];
+	this.size = mySize;
 	this.radius = (mySize/2);
 	this.circleSize = myCircleSize;
 	this.canPlay = true;
 	this.myTimer = null;
+	this.colors = myColors;
+	this.numberOfCircles = myNumberOfCircles;
+	this.parentContainer = myParentContainer;
+	this.loadContainer = null;
 }
 
 //convert degrees to radians
@@ -28,6 +33,59 @@ MyLoadAnimation1.prototype.getYCoord = function(radius, halfOfElementHeight, deg
 	return yCoord;
 }
 
+
+//remove the loadAnimation from the parent container
+MyLoadAnimation1.prototype.removeAnimation = function(){
+	$(this.loadContainer).remove();
+}
+
+
+//build the html and css for a circle in the load animation
+MyLoadAnimation1.prototype.buildCircle = function(color){
+	var circle = document.createElement("div");
+	$(circle).addClass("loadCircle");
+	$(circle).css("position","absolute");
+	$(circle).css("width", (this.circleSize + "px"));
+	$(circle).css("height", (this.circleSize + "px"));
+	$(circle).css("border-radius","50%");
+	$(circle).css("background-color", color +"");
+	$(circle).css("display", "none");
+	return circle;
+}
+
+
+//build the html and css for the load animation to take place in
+MyLoadAnimation1.prototype.buildHTML = function(){
+	myLoadContainer = document.createElement("div");
+	$(myLoadContainer).addClass("loadContainer");
+	$(myLoadContainer).css("position", "absolute");
+	$(myLoadContainer).css("margin", "auto");
+	$(myLoadContainer).css("left", "0");
+	$(myLoadContainer).css("right", "0");
+	$(myLoadContainer).css("top", "0");
+	$(myLoadContainer).css("bottom", "0");
+	$(myLoadContainer).css("height", (this.size + "px"));
+	$(myLoadContainer).css("width", (this.size + "px"));
+	$(myLoadContainer).css("-webkit-transform", "rotate(270deg)");
+	$(myLoadContainer).css("-moz-transform", "rotate(270deg)");
+	$(myLoadContainer).css("-o-transform", "rotate(270deg)");
+	$(myLoadContainer).css("-ms-transform", "rotate(270deg)");
+	$(myLoadContainer).css("transform", "rotate(270deg)");
+	var colorCounter = 0;
+	for(i = 0; i < this.numberOfCircles; i++){
+		if(colorCounter >= this.colors.length){
+			colorCounter = 0;
+		}
+		var circle = this.buildCircle(this.colors[colorCounter]);
+		colorCounter++;
+		this.elementsToAnimate.push(circle);
+		$(myLoadContainer).append($(circle));
+	}
+	this.loadContainer = myLoadContainer;
+	return this.loadContainer;
+}
+
+//stop the animation
 MyLoadAnimation1.prototype.stopAnimation = function(){
 	this.canPlay = false;
 	clearTimeout(this.myTimer);
@@ -76,8 +134,11 @@ MyLoadAnimation1.prototype.animate = function(elementToAnimate, elementToAnimate
 	}
 }
 
+//should be called when initially starting the animation
 MyLoadAnimation1.prototype.startAll = function(){
+	//console.log("hey");
 	this.canPlay = true;
+	$(this.parentContainer).append(this.buildHTML());
 	this.startAnimation(0,this.elementsToAnimate.length);
 }
 
@@ -110,33 +171,6 @@ var categories = [
 	"Carrie Fisher",
 	"R2-D2"
 ];
-
-function removeLoadAnimation(gif,loadAnimationContainer){
-	gif.removeEventListener("load", function(){
-	    		
-	});
-	$(loadAnimationContainer).remove();
-}
-
-function buildCircle(){
-	var circle = document.createElement("div");
-	$(circle).addClass("circle");
-	return circle;
-}
-
-function buildLoadAnimationContainer(){
-	var loadContainer = document.createElement("div");
-	$(loadContainer).addClass("loadContainer");
-	var elementsToAnimate = [];
-	for(i = 0; i < 3; i++){
-		var circle = buildCircle();
-		elementsToAnimate.push(circle);
-		$(loadContainer).append($(circle));
-	}
-	var loadAnimation = new MyLoadAnimation1(elementsToAnimate, 75, 12);
-	loadAnimation.startAll();
-	return loadContainer;
-}
 
 function buildButton(button){
 	var myButton = $("<div>");
@@ -174,10 +208,14 @@ function buildGif(gifData){
 	$(gif).addClass("cardImage");
 	imageWrapper.html($(gif));
 	myCard.append(imageWrapper);
-	var loadAnimationContainer = buildLoadAnimationContainer()
-	myCard.append($(loadAnimationContainer));
+	var loadAnimation = new MyLoadAnimation1(myCard,75,12,3,["#ffd700"]);
+	loadAnimation.startAll();
 	gif.addEventListener("load", function (){
-		removeLoadAnimation(gif,loadAnimationContainer);
+		gif.removeEventListener("load", function(){
+			//nothing
+		});
+		loadAnimation.stopAnimation();
+		loadAnimation.removeAnimation();
 	});
 	myCardWrapper.html(myCard);
 	return myCardWrapper;
@@ -215,10 +253,14 @@ $(document).ready(function(){
 
 	$(document).on('click', ('.myCard'), function() {
 		var gif = $(this).find("img")[0];
-		var loadAnimationContainer = buildLoadAnimationContainer()
-		$(this).append(loadAnimationContainer);
-		gif.addEventListener("load",function(){
-			removeLoadAnimation(gif,loadAnimationContainer);
+		var loadAnimation = new MyLoadAnimation1($(this),75,12,3,["#ffd700"]);
+		loadAnimation.startAll();
+		gif.addEventListener("load", function (){
+			gif.removeEventListener("load", function(){
+				//nothing
+			});
+			loadAnimation.stopAnimation();
+			loadAnimation.removeAnimation();
 		});
 		var playing = $(gif).data("gif-playing");
 		if(playing === false){
