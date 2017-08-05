@@ -13,15 +13,6 @@ var categories = [
 	"R2-D2"
 ];
 
-var gifsObj = new Object();
-
-function buildGifsObj(dataArray){
-	gifsObj = {};
-	for(i = 0; i < dataArray.length; i++){
-		gifsObj[dataArray[i].id] = dataArray[i];
-	}
-}
-
 function buildButton(button){
 	var myButton = $("<div>");
 	myButton.addClass("myButton");
@@ -39,15 +30,27 @@ function buildButtons(buttons){
 }
 
 function buildGif(gifData){
+	var myCardWrapper = $("<div>");
+	myCardWrapper.addClass("myCardWrapper");
+	myCardWrapper.addClass("col-lg-3");
+	myCardWrapper.addClass("col-md-4");
+	myCardWrapper.addClass("col-sm-6");
+	myCardWrapper.addClass("col-xs-12");
+	var myCard = $("<div>");
+	myCard.addClass("myCard");
+	var imageWrapper = $("<div>");
+	imageWrapper.addClass("imageWrapper");
 	var gif = $("<img>");
 	gif.attr("src", gifData.images.fixed_height_still.url);
 	gif.attr("alt", "star wars gif");
-	gif.attr("data-gif-id", gifData.id);
 	gif.attr("data-gif-playing", "false");
 	gif.attr("data-still", gifData.images.fixed_height_still.url);
 	gif.attr("data-animated",gifData.images.fixed_height.url);
-	gif.addClass("myGif");
-	return gif;
+	gif.addClass("cardImage");
+	imageWrapper.html(gif);
+	myCard.html(imageWrapper);
+	myCardWrapper.html(myCard);
+	return myCardWrapper;
 }
 
 $(document).ready(function(){
@@ -65,8 +68,6 @@ $(document).ready(function(){
 
 	$(document).on('click', ('.myButton'), function() {
 		var catName = $(this).data("button-id");
-		//console.log($(this));
-		//console.log(catName);
 		var queryUrl = "https://api.giphy.com/v1/gifs/search?api_key=9fcf1ba630614fef984f58f53399edfe&limit=10&q=" + encodeURI(catName);
 		$.ajax({
 			url:queryUrl,
@@ -74,8 +75,6 @@ $(document).ready(function(){
 		}).done(function(data){
 			console.log(data);
 			var myData = data.data;
-			//buildGifsObj(myData);
-			//console.log(gifsObj);
 			var giphsCont = $("#giphsContainer");
 			giphsCont.html("");
 			for(i = 0; i < myData.length; i++){
@@ -84,17 +83,15 @@ $(document).ready(function(){
 		});
 	});
 
-	$(document).on('click', ('.myGif'), function() {
-		var gif = $(this);
-		var id = gif.data("gif-id");
-		var playing = gif.data("gif-playing");
-		console.log(playing);
+	$(document).on('click', ('.myCard'), function() {
+		var gif = $(this).find("img")[0];
+		var playing = $(gif).data("gif-playing");
 		if(playing === false){
-			gif.attr("src", gif.data("animated"));
-			gif.data("gif-playing", true);
+			$(gif).attr("src", $(gif).data("animated"));
+			$(gif).data("gif-playing", true);
 		} else {
-			gif.attr("src", gif.data("still"));
-			gif.data("gif-playing", false);
+			$(gif).attr("src", $(gif).data("still"));
+			$(gif).data("gif-playing", false);
 		}
 	});
 
