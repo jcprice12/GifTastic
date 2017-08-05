@@ -157,6 +157,7 @@ MyLoadAnimation1.prototype.startAnimation = function(current, stop){
  END Load Animation Prototype
 ********************************************************************************************************************************************/
 
+//initial array of categories to search gifs for
 var categories = [
 	"Star Wars",
 	"Chewbacca",
@@ -172,6 +173,7 @@ var categories = [
 	"R2-D2"
 ];
 
+//build category button
 function buildButton(button){
 	var myButton = $("<div>");
 	myButton.addClass("myButton");
@@ -180,6 +182,7 @@ function buildButton(button){
 	return myButton;
 }
 
+//build all category buttons for given array
 function buildButtons(buttons){
 	var buttonsContainer = $("#buttonsContainer");
 	buttonsContainer.html("");
@@ -188,6 +191,7 @@ function buildButtons(buttons){
 	}
 }
 
+//build the gif image as well as its style containers
 function buildGif(gifData){
 	var myCardWrapper = $("<div>");
 	myCardWrapper.addClass("myCardWrapper");
@@ -208,8 +212,12 @@ function buildGif(gifData){
 	$(gif).addClass("cardImage");
 	imageWrapper.html($(gif));
 	myCard.append(imageWrapper);
+	//add load animation to the image
 	var loadAnimation = new MyLoadAnimation1(myCard,75,12,3,["#ffd700"]);
 	loadAnimation.startAll();
+	//on load, remove the load animation and event listener
+	//I'm concerned about a memory leak here or something. If the load animation objects aren't properly deleted
+	//by the garbage container, this application could end up using a lot of memory without letting it go.
 	gif.addEventListener("load", function (){
 		gif.removeEventListener("load", function(){
 			//nothing
@@ -221,6 +229,7 @@ function buildGif(gifData){
 	return myCardWrapper;
 }
 
+//listeners mostly placed here
 $(document).ready(function(){
 	buildButtons(categories);
 
@@ -234,6 +243,7 @@ $(document).ready(function(){
 	    }
 	});
 
+	//get the gif data when a category button is clicked
 	$(document).on('click', ('.myButton'), function() {
 		var catName = $(this).data("button-id");
 		var queryUrl = "https://api.giphy.com/v1/gifs/search?api_key=9fcf1ba630614fef984f58f53399edfe&limit=10&rating=PG-13&q=" + encodeURI(catName);
@@ -251,6 +261,7 @@ $(document).ready(function(){
 		});
 	});
 
+	//switch playing/not-playing adds load animation and removes it when loaded
 	$(document).on('click', ('.myCard'), function() {
 		var gif = $(this).find("img")[0];
 		var loadAnimation = new MyLoadAnimation1($(this),75,12,3,["#ffd700"]);
