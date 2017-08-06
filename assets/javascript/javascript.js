@@ -190,6 +190,10 @@ function buildButtons(buttons){
 	}
 }
 
+function buildGifInformation(){
+
+}
+
 //build the gif image as well as its style containers
 function buildGif(gifData){
 	var myCardWrapper = $("<div>");
@@ -197,7 +201,7 @@ function buildGif(gifData){
 	myCardWrapper.addClass("col-lg-3");
 	myCardWrapper.addClass("col-md-4");
 	myCardWrapper.addClass("col-sm-6");
-	myCardWrapper.addClass("col-xs-12");
+	myCardWrapper.addClass("col-xs-6");
 	var myCard = $("<div>");
 	myCard.addClass("myCard");
 	var imageWrapper = $("<div>");
@@ -224,7 +228,17 @@ function buildGif(gifData){
 		loadAnimation.stopAnimation();
 		loadAnimation.removeAnimation();
 	});
-	myCardWrapper.html(myCard);
+	var myGifData = $("<div>");
+	myGifData.addClass("myGifData");
+	myGifData.append("<p>Rating: " + gifData.rating + "</p>");
+	myInnerContainer = $("<div>");
+	myInnerContainer.addClass("myInnerContainer");
+	myInnerContainer.append(myCard);
+	myInnerContainer.append(myGifData);
+	var myOuterContainer = $("<div>");
+	myOuterContainer.addClass("myOuterContainer");
+	myOuterContainer.html(myInnerContainer);
+	myCardWrapper.html(myOuterContainer);
 	return myCardWrapper;
 }
 
@@ -250,20 +264,27 @@ $(document).ready(function(){
 			url:queryUrl,
 			method:"GET",
 		}).done(function(data){
-			console.log(data);
-			var myData = data.data;
-			var giphsCont = $("#giphsContainer");
-			giphsCont.html("");
-			for(var i = 0; i < myData.length; i++){
-				giphsCont.append(buildGif(myData[i]));
+			if(data.meta.status != 200){
+				alert("Could not retrieve data from the Giphy API. Please try again later.");
+			} else {
+				console.log(data);
+				var myData = data.data;
+				var giphsCont = $("#giphsContainer");
+				giphsCont.html("");
+				for(var i = 0; i < myData.length; i++){
+					giphsCont.append(buildGif(myData[i]));
+				}
 			}
+		}).fail(function(data){
+			alert("Could not retrieve data from the Giphy API. Please try again later.");
 		});
 	});
 
 	//switch playing/not-playing adds load animation and removes it when loaded
-	$(document).on('click', ('.myCard'), function() {
+	$(document).on('click', ('.myOuterContainer'), function() {
 		var gif = $(this).find("img")[0];
-		var loadAnimation = new MyLoadAnimation1($(this),75,12,3,["#ffd700"]);
+		var myCard = $(this).find(".myCard")[0];
+		var loadAnimation = new MyLoadAnimation1(myCard,75,12,3,["#ffd700"]);
 		loadAnimation.startAll();
 		gif.addEventListener("load", function (){
 			gif.removeEventListener("load", function(){

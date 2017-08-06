@@ -14,6 +14,10 @@ label{
 	font-weight: normal;
 }
 
+p{
+	padding: 10px;
+}
+
 #bodyContainer{
 
 }
@@ -67,6 +71,7 @@ label{
 	border-radius: 4px;
 }
 
+
 #myHeader{
 	background-image: url("../images/ep_naturalblack.png");
 	position:relative;
@@ -109,24 +114,58 @@ GIF Styling
 	position:absolute;
 	left:0;
 	right:0;
-	bottom:0;
 	top:0;
-	margin:auto;
-	height:96%;
-	width:96%;
-	box-shadow: 5px 5px 10px #2f2f2f;
+	height:70%;
+	width:100%;
 	background-image: url("../images/ep_naturalblack.png");
-	border-radius: 5px;
-}
-
-.myCard:hover,
-.myCard:active{
-	cursor: pointer;
-	border:2px solid #ffd700;
 }
 
 .myCardWrapper{
-	height:200px;
+	height:280px;
+}
+
+.myGifData{
+	position:absolute;
+	bottom:0;
+	left:0;
+	right:0;
+	width:100%;
+	height:30%;
+	border-radius: 0px 0px 4px 4px;
+	background-color:#444349;
+	text-align:center;
+	color:#777;
+}
+
+.myInnerContainer{
+	position: absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	margin:auto;
+	height:97.5%;
+	width:97.5%;
+}
+
+.myOuterContainer{
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	width:94%;
+	height:94%;
+	box-shadow: 5px 5px 10px #2f2f2f;
+	border-radius: 4px 4px 4px 4px;
+	background-color:#777;
+	/*background-image: url("../images/ep_naturalblack.png");*/
+}
+
+.myOuterContainer:hover,
+.myOuterContainer:active{
+	cursor: pointer;
+	background:#ffd700;
 }
 
 .cardImage{
@@ -144,14 +183,8 @@ GIF Styling
 END Gif Styling
 ***************************************************************************************************/
 
-@media screen and (max-width: 768px) {
-	.myCard{
-		width:65%;
-	}
-}
-
-@media screen and (max-width: 500px) {
-	.myCard{
-		width:96%;
+@media screen and (max-width: 560px) {
+	.myInnerContainer{
+		width:96.5%;
 	}
 }
