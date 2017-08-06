@@ -56,7 +56,7 @@ MyLoadAnimation1.prototype.buildCircle = function(color){
 
 //build the html and css for the load animation to take place in
 MyLoadAnimation1.prototype.buildHTML = function(){
-	myLoadContainer = document.createElement("div");
+	var myLoadContainer = document.createElement("div");
 	$(myLoadContainer).addClass("loadContainer");
 	$(myLoadContainer).css("position", "absolute");
 	$(myLoadContainer).css("margin", "auto");
@@ -136,7 +136,6 @@ MyLoadAnimation1.prototype.animate = function(elementToAnimate, elementToAnimate
 
 //should be called when initially starting the animation
 MyLoadAnimation1.prototype.startAll = function(){
-	//console.log("hey");
 	this.canPlay = true;
 	$(this.parentContainer).append(this.buildHTML());
 	this.startAnimation(0,this.elementsToAnimate.length);
@@ -178,7 +177,7 @@ function buildButton(button){
 	var myButton = $("<div>");
 	myButton.addClass("myButton");
 	myButton.attr("data-button-id",button);
-	myButton.html(button);
+	myButton.text(button);
 	return myButton;
 }
 
