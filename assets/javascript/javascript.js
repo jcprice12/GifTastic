@@ -245,7 +245,7 @@ $(document).ready(function(){
 	//get the gif data when a category button is clicked
 	$(document).on('click', ('.myButton'), function() {
 		var catName = $(this).data("button-id");
-		var queryUrl = "https://api.giphy.com/v1/gifs/search?api_key=9fcf1ba630614fef984f58f53399edfe&limit=10&rating=PG-13&q=" + encodeURI(catName);
+		var queryUrl = "https://api.giphy.com/v1/gifs/search?api_key=9fcf1ba630614fef984f58f53399edfe&limit=12&rating=PG-13&q=" + encodeURI(catName);
 		$.ajax({
 			url:queryUrl,
 			method:"GET",
